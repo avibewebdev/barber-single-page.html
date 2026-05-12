@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr. T's Barber Shop — Generations of Craftsmanship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== ROOT VARIABLES ===== */
+:root{
+  --black:#080808;
+  --dark:#0f0f0f;
+  --card:#161616;
+  --border:#222;
+  --gold:#c9960c;
+  --gold-light:#f0c040;
+  --gold-dim:#8a6508;
+  --red:#9b0000;
+  --cream:#f0ede5;
+  --text:#e8e4db;
+  --muted:#888;
+  --nav-h:72px;
+  --r:6px;
+  --sans:'Barlow',sans-serif;
+  --serif:'Playfair Display',serif;
+  --cond:'Barlow Condensed',sans-serif;
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--black);color:var(--text);font-family:var(--sans);overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{cursor:none;border:none;background:none;font-family:inherit}
+ul{list-style:none}
+
+/* ===== CUSTOM CURSOR ===== */
+#cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s,background .2s;mix-blend-mode:difference}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out,width .3s,height .3s,opacity .3s;opacity:.6}
+body:hover #cursor{opacity:1}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}
+
+/* ===== PAGE SYSTEM ===== */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);animation:pageFadeIn .5s ease}
+.page.active{display:block}
+@keyframes pageFadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;width:100%;z-index:1000;height:var(--nav-h);display:flex;align-items:center;padding:0 40px;transition:background .4s,box-shadow .4s}
+nav.scrolled{background:rgba(8,8,8,.96);box-shadow:0 1px 0 var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav-logo{font-family:var(--serif);font-size:1.5rem;font-weight:700;letter-spacing:.02em;color:var(--cream)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:36px}
+.nav-links a{font-family:var(--cond);font-size:.88rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .25s;position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--cream)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-book{font-family:var(--cond);font-size:.8rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:10px 22px;border:1px solid var(--gold);color:var(--gold);border-radius:2px;transition:all .25s}
+.nav-book:hover{background:var(--gold);color:var(--black)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:6px;cursor:none}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--cream);transition:all .35s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ===== MOBILE MENU OVERLAY ===== */
+.menu-overlay{position:fixed;inset:0;background:var(--black);z-index:999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.menu-overlay ul{display:flex;flex-direction:column;gap:24px;text-align:center}
+.menu-overlay ul li a{font-family:var(--serif);font-size:clamp(2rem,7vw,3.5rem);font-weight:600;color:var(--cream);opacity:0;transform:translateY(30px);transition:color .25s,opacity .4s,transform .4s}
+.menu-overlay.open ul li a{opacity:1;transform:translateY(0)}
+.menu-overlay ul li:nth-child(1) a{transition-delay:.05s}
+.menu-overlay ul li:nth-child(2) a{transition-delay:.1s}
+.menu-overlay ul li:nth-child(3) a{transition-delay:.15s}
+.menu-overlay ul li:nth-child(4) a{transition-delay:.2s}
+.menu-overlay ul li:nth-child(5) a{transition-delay:.25s}
+.menu-overlay ul li:nth-child(6) a{transition-delay:.3s}
+.menu-overlay ul li:nth-child(7) a{transition-delay:.35s}
+.menu-overlay ul li:nth-child(8) a{transition-delay:.4s}
+.menu-overlay ul li:nth-child(9) a{transition-delay:.45s}
+.menu-overlay ul li:nth-child(10) a{transition-delay:.5s}
+.menu-overlay ul li a:hover{color:var(--gold)}
+
+/* ===== UTILITY ===== */
+.section{padding:100px 40px}
+.section-sm{padding:70px 40px}
+.container{max-width:1200px;margin:0 auto}
+.eyebrow{font-family:var(--cond);font-size:.78rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:var(--cream);line-height:1.15;margin-bottom:20px}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-body{color:var(--muted);line-height:1.8;max-width:560px;font-size:.95rem}
+.divider{width:48px;height:2px;background:var(--gold);margin:20px 0}
+.gold{color:var(--gold)}
+.text-center{text-align:center}
+.text-center .section-body{margin:0 auto}
+.text-center .divider{margin:20px auto}
+.tag{display:inline-block;font-family:var(--cond);font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--gold-dim);color:var(--gold);border-radius:2px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--cond);font-size:.82rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:14px 30px;border-radius:2px;transition:all .3s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.08);opacity:0;transition:opacity .25s}
+.btn:hover::after{opacity:1}
+.btn-gold{background:var(--gold);color:var(--black)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-outline{border:1px solid var(--gold);color:var(--gold)}
+.btn-outline:hover{background:var(--gold);color:var(--black)}
+.btn-red{background:var(--red);color:var(--cream)}
+.btn-red:hover{background:#b50000}
+.ripple-btn{position:relative;overflow:hidden}
+.ripple-btn .ripple{position:absolute;border-radius:50%;transform:scale(0);animation:rippleAnim .6s linear;background:rgba(255,255,255,.25);pointer-events:none}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .7s ease,transform .7s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+
+/* ===== NOISE OVERLAY ===== */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");opacity:.35;pointer-events:none;z-index:1;animation:noiseAnim 8s steps(2) infinite}
+@keyframes noiseAnim{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-2px)}75%{transform:translate(-1px,2px)}100%{transform:translate(2px,-1px)}}
+
+/* ============================================
+   PAGE 1: HOME
+   ============================================ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#080808 0%,#0f0808 50%,#0a0603 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;background:url('https://picsum.photos/seed/mrts-hero/1600/900') center/cover no-repeat;opacity:.22}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,8,.92) 45%,rgba(8,8,8,.2) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 40px;max-width:760px}
+.hero-eyebrow{font-family:var(--cond);font-size:.8rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:0;animation:heroFade .8s .3s forwards}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,7vw,6.5rem);font-weight:900;line-height:1.05;margin:16px 0 24px;color:var(--cream);opacity:0;animation:heroFade .8s .5s forwards}
+.hero-title span{color:var(--gold);font-style:italic}
+.hero-sub{font-size:1rem;color:rgba(232,228,219,.7);line-height:1.8;max-width:480px;opacity:0;animation:heroFade .8s .7s forwards}
+.hero-ctas{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap;opacity:0;animation:heroFade .8s .9s forwards}
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;opacity:0;animation:heroFade 1s 1.2s forwards}
+.hero-scroll span{font-family:var(--cond);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollLine 2s ease-in-out infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes heroFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{position:absolute;right:60px;top:50%;transform:translateY(-50%);z-index:2;display:flex;align-items:center;justify-content:center}
+.badge-ring{width:150px;height:150px;border:1px solid rgba(201,150,12,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:rotateBadge 20s linear infinite}
+.badge-text{position:absolute;font-family:var(--cond);font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.badge-center{position:absolute;font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--cream);text-align:center;line-height:1.3}
+@keyframes rotateBadge{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+/* Stats Bar */
+.stats-bar{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;divide-x:1px solid var(--border)}
+.stat-item{padding:36px 20px;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-label{font-family:var(--cond);font-size:.75rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+/* Home Services Preview */
+.home-services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.hs-card{background:var(--card);padding:48px 36px;transition:background .3s;position:relative;overflow:hidden}
+.hs-card::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.hs-card:hover{background:#1c1c1c}
+.hs-card:hover::before{transform:scaleX(1)}
+.hs-icon{width:48px;height:48px;margin-bottom:24px;opacity:.8}
+.hs-icon svg{width:100%;height:100%;stroke:var(--gold);fill:none;stroke-width:1.5}
+.hs-title{font-family:var(--serif);font-size:1.35rem;font-weight:700;color:var(--cream);margin-bottom:12px}
+.hs-body{font-size:.88rem;color:var(--muted);line-height:1.7}
+.hs-price{font-family:var(--cond);font-size:1.1rem;font-weight:600;color:var(--gold);margin-top:20px}
+/* Home About */
+.home-about{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-img-wrap{position:relative}
+.about-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--r)}
+.about-img-accent{position:absolute;bottom:-20px;right:-20px;width:60%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);border:4px solid var(--black)}
+.about-years-badge{position:absolute;top:-20px;left:-20px;width:90px;height:90px;background:var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--black);font-family:var(--serif);font-weight:700}
+.about-years-badge .num{font-size:1.8rem;line-height:1}
+.about-years-badge .text{font-size:.55rem;text-transform:uppercase;letter-spacing:.05em}
+/* Testimonials Snippet */
+.testimonials-ticker{overflow:hidden;background:var(--gold);padding:14px 0}
+.ticker-inner{display:flex;gap:60px;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker-item{font-family:var(--cond);font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--black)}
+
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* Instagram Strip */
+.insta-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.insta-img{aspect-ratio:1;overflow:hidden;position:relative}
+.insta-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.insta-img:hover img{transform:scale(1.1)}
+.insta-img-overlay{position:absolute;inset:0;background:rgba(201,150,12,.7);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center}
+.insta-img:hover .insta-img-overlay{opacity:1}
+.insta-icon{width:28px;height:28px;stroke:white;fill:none}
+
+/* ============================================
+   PAGE 2: SERVICES
+   ============================================ */
+.page-hero{padding:80px 40px;background:linear-gradient(180deg,rgba(201,150,12,.08) 0%,transparent 100%);border-bottom:1px solid var(--border);text-align:center}
+.service-cats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.cat-btn{font-family:var(--cond);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:9px 22px;border:1px solid var(--border);color:var(--muted);border-radius:20px;transition:all .25s;cursor:none}
+.cat-btn.active,.cat-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,150,12,.08)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);perspective:1000px;height:240px}
+.svc-card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s}
+.svc-card:hover .svc-card-inner{transform:rotateY(180deg)}
+.svc-front,.svc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);padding:32px}
+.svc-front{display:flex;flex-direction:column;justify-content:space-between}
+.svc-front-top{display:flex;align-items:flex-start;justify-content:space-between}
+.svc-name{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px}
+.svc-desc{font-size:.83rem;color:var(--muted);line-height:1.6}
+.svc-price{font-family:var(--cond);font-size:1.6rem;font-weight:700;color:var(--gold)}
+.svc-duration{font-family:var(--cond);font-size:.7rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.svc-back{background:var(--gold);transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.svc-back .svc-name{color:var(--black);text-align:center}
+.svc-back .svc-price{font-size:2.2rem;color:var(--black);font-weight:900}
+.svc-back .btn{background:var(--black);color:var(--cream);font-size:.75rem}
+/* Price list table */
+.price-table{width:100%;border-collapse:collapse;margin-top:40px}
+.price-table tr{border-bottom:1px solid var(--border)}
+.price-table tr:hover{background:rgba(255,255,255,.02)}
+.price-table td{padding:18px 20px;font-size:.9rem}
+.price-table td:first-child{color:var(--cream);font-weight:500}
+.price-table td:last-child{color:var(--gold);font-family:var(--cond);font-size:1rem;font-weight:600;text-align:right}
+.price-table .cat-row{background:rgba(201,150,12,.06)}
+.price-table .cat-row td{font-family:var(--cond);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:10px 20px}
+
+/* ============================================
+   PAGE 3: ABOUT
+   ============================================ */
+.about-hero-section{position:relative;padding:100px 40px;min-height:70vh;display:flex;align-items:center}
+.about-hero-bg{position:absolute;inset:0;background:url('https://picsum.photos/seed/mrts-about-bg/1400/900') center/cover;opacity:.12}
+.about-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--black) 40%,transparent)}
+.about-hero-content{position:relative;z-index:1;max-width:600px}
+.about-big-quote{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--cream);line-height:1.3;font-style:italic}
+.about-big-quote span{color:var(--gold)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.story-timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:24px;padding:24px 0;border-bottom:1px solid var(--border)}
+.tl-year{font-family:var(--cond);font-size:1.4rem;font-weight:700;color:var(--gold);min-width:60px}
+.tl-body h4{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:6px}
+.tl-body p{font-size:.86rem;color:var(--muted);line-height:1.7}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
+.val-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px 24px;transition:border-color .3s,transform .3s}
+.val-card:hover{border-color:var(--gold-dim);transform:translateY(-4px)}
+.val-num{font-family:var(--serif);font-size:2.5rem;font-weight:900;color:var(--gold-dim);opacity:.5;line-height:1;margin-bottom:16px}
+.val-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--cream);margin-bottom:8px}
+.val-body{font-size:.84rem;color:var(--muted);line-height:1.7}
+
+/* ============================================
+   PAGE 4: GALLERY
+   ============================================ */
+.gallery-filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.gallery-grid{columns:3;gap:12px}
+.gallery-item{break-inside:avoid;margin-bottom:12px;overflow:hidden;border-radius:4px;cursor:none;position:relative}
+.gallery-item img{width:100%;display:block;transition:transform .5s}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-overlay{position:absolute;inset:0;background:rgba(201,150,12,.75);opacity:0;transition:opacity .35s;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;border-radius:4px}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-overlay-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--black)}
+/* Lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:2000;display:none;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
+.lightbox-close{position:absolute;top:24px;right:24px;font-size:2rem;color:var(--cream);cursor:none;opacity:.7;transition:opacity .2s}
+.lightbox-close:hover{opacity:1}
+
+/* ============================================
+   PAGE 5: TEAM
+   ============================================ */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.team-card{perspective:800px;cursor:none}
+.team-card-inner{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .05s,box-shadow .3s;transform-style:preserve-3d}
+.team-card:hover .team-card-inner{box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(201,150,12,.2)}
+.team-img-wrap{position:relative;overflow:hidden}
+.team-img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .5s}
+.team-card:hover .team-img{transform:scale(1.04)}
+.team-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.9) 0%,transparent 50%)}
+.team-socials{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:12px;opacity:0;transition:opacity .3s,transform .3s;transform:translateX(-50%) translateY(12px)}
+.team-card:hover .team-socials{opacity:1;transform:translateX(-50%) translateY(0)}
+.team-social-btn{width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:.75rem;transition:all .25s}
+.team-social-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.team-info{padding:24px}
+.team-name{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--cream);margin-bottom:4px}
+.team-role{font-family:var(--cond);font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.team-bio{font-size:.83rem;color:var(--muted);line-height:1.7}
+.team-specialties{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.specialty-tag{font-family:var(--cond);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border);border-radius:2px;color:var(--muted)}
+
+/* ============================================
+   PAGE 6: BOOKING
+   ============================================ */
+.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.booking-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:40px}
+.form-title{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--cream);margin-bottom:30px}
+.steps-indicator{display:flex;gap:0;margin-bottom:36px}
+.step-dot{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.step-dot::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:1px;background:var(--border)}
+.step-dot:last-child::after{display:none}
+.step-dot-circle{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--cond);font-size:.75rem;font-weight:700;color:var(--muted);background:var(--card);position:relative;z-index:1;transition:all .3s}
+.step-dot.active .step-dot-circle{border-color:var(--gold);color:var(--gold);background:rgba(201,150,12,.1)}
+.step-dot.done .step-dot-circle{border-color:var(--gold);background:var(--gold);color:var(--black)}
+.step-dot-label{font-family:var(--cond);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.step-dot.active .step-dot-label{color:var(--gold)}
+.form-step{display:none}
+.form-step.active{display:block;animation:pageFadeIn .4s ease}
+.form-group{margin-bottom:20px}
+.form-label{font-family:var(--cond);font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
+.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;padding:12px 16px;font-family:var(--sans);font-size:.9rem;color:var(--cream);transition:border-color .25s}
+.form-input:focus{outline:none;border-color:var(--gold)}
+.form-input::placeholder{color:var(--muted);opacity:.5}
+.service-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.service-option{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:4px;padding:14px;cursor:none;transition:all .25s}
+.service-option:hover{border-color:var(--gold-dim)}
+.service-option.selected{border-color:var(--gold);background:rgba(201,150,12,.08)}
+.service-option-name{font-size:.88rem;color:var(--cream);font-weight:500;margin-bottom:2px}
+.service-option-price{font-family:var(--cond);font-size:.78rem;color:var(--gold)}
+.time-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.time-slot{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:4px;padding:10px 6px;text-align:center;cursor:none;transition:all .25s;font-family:var(--cond);font-size:.75rem;color:var(--muted)}
+.time-slot:hover{border-color:var(--gold-dim);color:var(--cream)}
+.time-slot.selected{border-color:var(--gold);background:rgba(201,150,12,.1);color:var(--gold)}
+.time-slot.unavailable{opacity:.3;pointer-events:none}
+.form-nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px}
+.booking-info{display:flex;flex-direction:column;gap:24px}
+.booking-info-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px}
+.bic-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--cream);margin-bottom:16px}
+.bic-items{display:flex;flex-direction:column;gap:12px}
+.bic-item{display:flex;align-items:center;gap:12px;font-size:.88rem;color:var(--muted)}
+.bic-item svg{width:16px;height:16px;stroke:var(--gold);fill:none;flex-shrink:0}
+
+/* ============================================
+   PAGE 7: PACKAGES
+   ============================================ */
+.packages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pkg-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:36px;position:relative;transition:transform .3s,box-shadow .3s}
+.pkg-card.featured{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,150,12,.08) 0%,var(--card) 100%)}
+.pkg-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.pkg-badge{position:absolute;top:-1px;right:24px;font-family:var(--cond);font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:4px 12px;background:var(--gold);color:var(--black);border-radius:0 0 4px 4px}
+.pkg-name{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:var(--cream);margin-bottom:8px}
+.pkg-desc{font-size:.84rem;color:var(--muted);line-height:1.6;margin-bottom:24px}
+.pkg-price{font-family:var(--serif);font-size:3rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:4px}
+.pkg-price sup{font-size:1.5rem;vertical-align:top;margin-top:.5rem}
+.pkg-period{font-family:var(--cond);font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px}
+.pkg-features{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.pkg-feature{display:flex;align-items:center;gap:10px;font-size:.87rem;color:var(--muted)}
+.pkg-feature svg{width:15px;height:15px;stroke:var(--gold);fill:none;flex-shrink:0}
+.pkg-feature.crossed{text-decoration:line-through;opacity:.4}
+.pkg-feature.crossed svg{stroke:var(--muted)}
+
+/* ============================================
+   PAGE 8: TESTIMONIALS
+   ============================================ */
+.testimonials-hero{text-align:center;padding:80px 40px 40px}
+.testimonials-main-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.test-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px;transition:border-color .3s,transform .3s}
+.test-card:hover{border-color:var(--gold-dim);transform:translateY(-4px)}
+.test-stars{display:flex;gap:3px;margin-bottom:16px}
+.star{color:var(--gold);font-size:.9rem}
+.test-quote{font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--cream);line-height:1.7;margin-bottom:20px}
+.test-author{display:flex;align-items:center;gap:12px}
+.test-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}
+.test-name{font-size:.88rem;font-weight:600;color:var(--cream)}
+.test-date{font-family:var(--cond);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:40px;margin-bottom:48px}
+.big-rating{text-align:center}
+.big-num{font-family:var(--serif);font-size:5rem;font-weight:900;color:var(--gold);line-height:1}
+.big-stars{display:flex;gap:4px;justify-content:center;margin:8px 0}
+.big-count{font-family:var(--cond);font-size:.75rem;color:var(--muted);letter-spacing:.1em}
+.rating-bars{flex:1}
+.rating-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.rating-bar-label{font-family:var(--cond);font-size:.75rem;color:var(--muted);min-width:40px}
+.rating-bar-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.rating-bar-fill{height:100%;background:var(--gold);border-radius:3px}
+.rating-bar-pct{font-family:var(--cond);font-size:.7rem;color:var(--muted);min-width:30px;text-align:right}
+
+/* ============================================
+   PAGE 9: FAQ
+   ============================================ */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.faq-list{display:flex;flex-direction:column;gap:2px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:none;gap:16px}
+.faq-question-text{font-size:.95rem;font-weight:500;color:var(--cream);line-height:1.4;flex:1}
+.faq-icon{width:22px;height:22px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;color:var(--muted)}
+.faq-item.open .faq-icon{border-color:var(--gold);color:var(--gold);transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s}
+.faq-answer-inner{font-size:.88rem;color:var(--muted);line-height:1.8;padding-bottom:20px}
+.faq-item.open .faq-answer{max-height:400px}
+.faq-sidebar{display:flex;flex-direction:column;gap:20px}
+.faq-cta-card{background:linear-gradient(135deg,rgba(201,150,12,.15) 0%,transparent);border:1px solid rgba(201,150,12,.3);border-radius:var(--r);padding:32px}
+.faq-cta-card h3{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--cream);margin-bottom:12px}
+.faq-cta-card p{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:20px}
+
+/* ============================================
+   PAGE 10: CONTACT
+   ============================================ */
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:24px}
+.contact-info-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px}
+.cib-icon{width:36px;height:36px;background:rgba(201,150,12,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.cib-icon svg{width:18px;height:18px;stroke:var(--gold);fill:none}
+.cib-label{font-family:var(--cond);font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.cib-value{font-size:.95rem;color:var(--cream);line-height:1.6}
+.cib-value a{color:var(--cream);transition:color .25s}
+.cib-value a:hover{color:var(--gold)}
+.hours-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;margin-top:8px}
+.hours-day{font-family:var(--cond);font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.hours-time{font-size:.85rem;color:var(--cream)}
+.contact-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:40px}
+.contact-form .form-group{margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.contact-map{height:220px;background:var(--dark);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:relative;margin-top:16px}
+.contact-map::before{content:'Open in Maps';position:absolute;bottom:12px;right:12px;font-family:var(--cond);font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;background:var(--black);color:var(--gold);border-radius:2px}
+.map-placeholder{width:100%;height:100%;background:repeating-linear-gradient(45deg,rgba(201,150,12,.03) 0,rgba(201,150,12,.03) 10px,transparent 10px,transparent 20px);display:flex;align-items:center;justify-content:center;font-family:var(--cond);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:60px 40px 30px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+.footer-brand .nav-logo{font-size:1.8rem;margin-bottom:16px;display:block}
+.footer-desc{font-size:.85rem;color:var(--muted);line-height:1.8;max-width:260px}
+.footer-socials{display:flex;gap:10px;margin-top:20px}
+.social-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem;transition:all .25s}
+.social-btn:hover{border-color:var(--gold);color:var(--gold)}
+.footer-col h4{font-family:var(--cond);font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--cream);margin-bottom:20px}
+.footer-col ul{display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:.87rem;color:var(--muted);transition:color .25s}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:.78rem;color:var(--muted)}
+.footer-bottom a{color:var(--gold)}
+
+/* ===== BACK TO TOP ===== */
+#back-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:900;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateY(10px)}
+#back-top.visible{opacity:1;pointer-events:all;transform:translateY(0)}
+#back-top svg{width:18px;height:18px;stroke:var(--black);fill:none;stroke-width:2.5}
+
+/* ===== MEDIA QUERIES ===== */
+@media(max-width:1024px){
+  .home-services{grid-template-columns:1fr 1fr}
+  .home-about{grid-template-columns:1fr;gap:40px}
+  .about-img-wrap{max-width:500px}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .testimonials-main-grid{grid-template-columns:1fr 1fr}
+  .packages-grid{grid-template-columns:1fr 1fr}
+  .rating-summary{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  :root{--nav-h:60px}
+  .nav-links,.nav-book{display:none}
+  .hamburger{display:flex}
+  .section{padding:60px 20px}
+  .section-sm{padding:40px 20px}
+  .page-hero{padding:50px 20px}
+  nav{padding:0 20px}
+  .hero-content{padding:0 20px}
+  .hero-badge{display:none}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .home-services{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{columns:2}
+  .team-grid{grid-template-columns:1fr}
+  .booking-grid{grid-template-columns:1fr}
+  .booking-info{display:none}
+  .faq-grid{grid-template-columns:1fr}
+  .faq-sidebar{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .packages-grid{grid-template-columns:1fr}
+  .testimonials-main-grid{grid-template-columns:1fr}
+  .values-grid{grid-template-columns:1fr}
+  .story-grid{grid-template-columns:1fr}
+  .about-img-wrap{display:none}
+  .insta-strip{grid-template-columns:repeat(3,1fr)}
+  .service-options{grid-template-columns:1fr}
+  .time-slots{grid-template-columns:repeat(3,1fr)}
+  .form-row{grid-template-columns:1fr}
+  .hero-ctas{flex-direction:column;align-items:flex-start}
+  .rating-summary{grid-template-columns:1fr}
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none}
+}
+@media(max-width:480px){
+  .services-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{columns:1}
+  .insta-strip{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#" onclick="showPage('home')">Mr. <span>T's</span></a>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a>
+      <a href="#" onclick="showPage('services')" data-page="services">Services</a>
+      <a href="#" onclick="showPage('about')" data-page="about">About</a>
+      <a href="#" onclick="showPage('gallery')" data-page="gallery">Gallery</a>
+      <a href="#" onclick="showPage('team')" data-page="team">Our Barbers</a>
+      <a href="#" onclick="showPage('packages')" data-page="packages">Packages</a>
+      <a href="#" onclick="showPage('testimonials')" data-page="testimonials">Reviews</a>
+      <a href="#" onclick="showPage('faq')" data-page="faq">FAQ</a>
+      <a href="#" onclick="showPage('contact')" data-page="contact">Contact</a>
+    </div>
+    <button class="nav-book ripple-btn" onclick="showPage('booking')">Book Now</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="menu-overlay" id="menu-overlay">
+  <ul>
+    <li><a href="#" onclick="navTo('home')">Home</a></li>
+    <li><a href="#" onclick="navTo('services')">Services</a></li>
+    <li><a href="#" onclick="navTo('about')">About</a></li>
+    <li><a href="#" onclick="navTo('gallery')">Gallery</a></li>
+    <li><a href="#" onclick="navTo('team')">Our Barbers</a></li>
+    <li><a href="#" onclick="navTo('packages')">Packages</a></li>
+    <li><a href="#" onclick="navTo('testimonials')">Reviews</a></li>
+    <li><a href="#" onclick="navTo('faq')">FAQ</a></li>
+    <li><a href="#" onclick="navTo('contact')">Contact</a></li>
+    <li><a href="#" onclick="navTo('booking')">Book Now</a></li>
+  </ul>
+</div>
+
+<!-- Back to Top -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- ============================================
+     PAGE 1: HOME
+     ============================================ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Est. 2009 &mdash; San Jose, CA</p>
+      <h1 class="hero-title">Where Craft<br>Meets <span>Character</span></h1>
+      <p class="hero-sub">Mr. T's Barber Shop — generations of craftsmanship, precision cuts, and the kind of service that keeps you coming back.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-gold ripple-btn" onclick="showPage('booking')">Book Appointment</button>
+        <button class="btn btn-outline ripple-btn" onclick="showPage('services')">View Services</button>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <div class="badge-ring">
+        <div class="badge-center">15+<br><small style="font-size:.55rem;font-family:var(--cond);letter-spacing:.1em;text-transform:uppercase">Years</small></div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <div class="testimonials-ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Precision Fades &bull;</span>
+      <span class="ticker-item">Classic Straight Razor &bull;</span>
+      <span class="ticker-item">Beard Sculpting &bull;</span>
+      <span class="ticker-item">Kids Cuts &bull;</span>
+      <span class="ticker-item">Hot Towel Shave &bull;</span>
+      <span class="ticker-item">Hair Styling &bull;</span>
+      <span class="ticker-item">Line-Ups &bull;</span>
+      <span class="ticker-item">Precision Fades &bull;</span>
+      <span class="ticker-item">Classic Straight Razor &bull;</span>
+      <span class="ticker-item">Beard Sculpting &bull;</span>
+      <span class="ticker-item">Kids Cuts &bull;</span>
+      <span class="ticker-item">Hot Towel Shave &bull;</span>
+      <span class="ticker-item">Hair Styling &bull;</span>
+      <span class="ticker-item">Line-Ups &bull;</span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stats-grid container">
+      <div class="stat-item">
+        <div class="stat-num" data-count="15">0</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="5000">0</div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="4">0</div>
+        <div class="stat-label">Expert Barbers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="98">0</div>
+        <div class="stat-label">% Satisfaction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Services -->
+  <section class="section" style="padding-left:0;padding-right:0">
+    <div class="container" style="padding:0 40px 40px">
+      <div class="text-center reveal">
+        <p class="eyebrow">What We Offer</p>
+        <h2 class="section-title">The <em>Full</em> Experience</h2>
+        <div class="divider"></div>
+      </div>
+    </div>
+    <div class="home-services">
+      <div class="hs-card reveal">
+        <div class="hs-icon">
+          <svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+        </div>
+        <div>
+          <h3 class="hs-title">Precision Cuts</h3>
+          <p class="hs-body">From classic tapers to modern fades — every cut is tailored to your face shape, hair texture, and personal style.</p>
+          <p class="hs-price">From $25</p>
+        </div>
+      </div>
+      <div class="hs-card reveal" style="transition-delay:.1s">
+        <div class="hs-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div>
+          <h3 class="hs-title">Beard Grooming</h3>
+          <p class="hs-body">Straight razor shaves, beard sculpting, shape-ups, and hot towel treatments for the perfectly groomed face.</p>
+          <p class="hs-price">From $15</p>
+        </div>
+      </div>
+      <div class="hs-card reveal" style="transition-delay:.2s">
+        <div class="hs-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <h3 class="hs-title">Premium Packages</h3>
+          <p class="hs-body">All-inclusive grooming packages combining our most popular services for the complete gentleman experience.</p>
+          <p class="hs-price">From $45</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Snippet -->
+  <section class="section">
+    <div class="container">
+      <div class="home-about">
+        <div class="about-img-wrap reveal-left">
+          <img class="about-img" src="https://picsum.photos/seed/mrts-cut1/600/800" alt="Barber at work" loading="lazy">
+          <img class="about-img-accent" src="https://picsum.photos/seed/mrts-tools/400/300" alt="Barber tools" loading="lazy">
+          <div class="about-years-badge">
+            <div class="num">15</div>
+            <div class="text">Years</div>
+          </div>
+        </div>
+        <div class="reveal-right">
+          <p class="eyebrow">Our Story</p>
+          <h2 class="section-title">Generations of <em>Craftsmanship</em></h2>
+          <div class="divider"></div>
+          <p class="section-body" style="max-width:100%">Mr. T's Barber Shop has been a cornerstone of the community since 2009. With more than 30 years of combined experience across our team, we've built a reputation on precision, consistency, and genuine care for every client who sits in our chair.</p>
+          <p class="section-body" style="max-width:100%;margin-top:16px">We believe a great haircut is more than just a trim — it's an experience. From the moment you walk in, you're treated like family.</p>
+          <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap">
+            <button class="btn btn-gold ripple-btn" onclick="showPage('about')">Our Story</button>
+            <button class="btn btn-outline ripple-btn" onclick="showPage('team')">Meet the Team</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram Strip -->
+  <div class="insta-strip">
+    <div class="insta-img">
+      <img src="https://picsum.photos/seed/mrts-insta1/400/400" alt="Instagram" loading="lazy">
+      <div class="insta-img-overlay">
+        <svg class="insta-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+    </div>
+    <div class="insta-img">
+      <img src="https://picsum.photos/seed/mrts-insta2/400/400" alt="Instagram" loading="lazy">
+      <div class="insta-img-overlay">
+        <svg class="insta-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+    </div>
+    <div class="insta-img">
+      <img src="https://picsum.photos/seed/mrts-insta3/400/400" alt="Instagram" loading="lazy">
+      <div class="insta-img-overlay">
+        <svg class="insta-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+    </div>
+    <div class="insta-img">
+      <img src="https://picsum.photos/seed/mrts-insta4/400/400" alt="Instagram" loading="lazy">
+      <div class="insta-img-overlay">
+        <svg class="insta-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+    </div>
+    <div class="insta-img">
+      <img src="https://picsum.photos/seed/mrts-insta5/400/400" alt="Instagram" loading="lazy">
+      <div class="insta-img-overlay">
+        <svg class="insta-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+    </div>
+    <div class="insta-img">
+      <img src="https://picsum.photos/seed/mrts-insta6/400/400" alt="Instagram" loading="lazy">
+      <div class="insta-img-overlay">
+        <svg class="insta-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <section class="section-sm" style="background:linear-gradient(135deg,rgba(201,150,12,.1) 0%,rgba(155,0,0,.1) 100%);border-top:1px solid rgba(201,150,12,.15);border-bottom:1px solid rgba(201,150,12,.15)">
+    <div class="container text-center reveal">
+      <p class="eyebrow">Ready for a fresh look?</p>
+      <h2 class="section-title">Book Your Appointment <em>Today</em></h2>
+      <p class="section-body" style="margin:0 auto 32px">Walk-ins welcome Tuesday through Saturday. For guaranteed seating, reserve your spot online.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-gold ripple-btn" onclick="showPage('booking')">Book Online</button>
+        <a href="tel:+14082160655" class="btn btn-outline ripple-btn">(408) 216-0655</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <span class="nav-logo">Mr. <span>T's</span></span>
+        <p class="footer-desc">Precision cuts and timeless grooming in the heart of San Jose. Walk in looking good, walk out looking great.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn">in</a>
+          <a href="https://www.instagram.com/thebarberacademysj/" class="social-btn">ig</a>
+          <a href="#" class="social-btn">fb</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('home')">Home</a></li>
+          <li><a href="#" onclick="showPage('services')">Services</a></li>
+          <li><a href="#" onclick="showPage('about')">About</a></li>
+          <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
+          <li><a href="#" onclick="showPage('team')">Our Barbers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('services')">Haircuts</a></li>
+          <li><a href="#" onclick="showPage('services')">Beard Trim</a></li>
+          <li><a href="#" onclick="showPage('services')">Hot Towel Shave</a></li>
+          <li><a href="#" onclick="showPage('services')">Kids Cuts</a></li>
+          <li><a href="#" onclick="showPage('packages')">Packages</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul>
+          <li><a>Tue&ndash;Fri: 10am &ndash; 6:30pm</a></li>
+          <li><a>Saturday: 10am &ndash; 2pm</a></li>
+          <li><a>Sun &ndash; Mon: Closed</a></li>
+          <li><a href="tel:+14082160655">(408) 216-0655</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>&copy; 2025 Mr. T's Barber Shop. All rights reserved.</p>
+      <p>Made with precision &amp; care &mdash; <a href="#">Privacy Policy</a></p>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================
+     PAGE 2: SERVICES
+     ============================================ -->
+<div class="page" id="page-services">
+  <div class="page-hero">
+    <p class="eyebrow">What We Do</p>
+    <h1 class="section-title">Our <em>Services</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+    <p style="color:var(--muted);font-size:.9rem;line-height:1.8;max-width:500px;margin:0 auto">Walk-ins welcome Tuesday through Saturday. All work performed by our licensed barbers.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <!-- Category Filters -->
+      <div class="service-cats">
+        <button class="cat-btn active" onclick="filterServices('all',this)">All Services</button>
+        <button class="cat-btn" onclick="filterServices('cuts',this)">Cuts</button>
+        <button class="cat-btn" onclick="filterServices('beard',this)">Beard</button>
+        <button class="cat-btn" onclick="filterServices('kids',this)">Kids</button>
+        <button class="cat-btn" onclick="filterServices('premium',this)">Premium</button>
+      </div>
+
+      <!-- Service Cards -->
+      <div class="services-grid">
+        <div class="svc-card reveal" data-category="cuts">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top">
+                <div>
+                  <p class="svc-name">Classic Haircut</p>
+                  <p class="svc-desc">Traditional scissor or clipper cut with a clean finish and styled to your preference.</p>
+                </div>
+              </div>
+              <div>
+                <p class="svc-duration">~30 min</p>
+                <p class="svc-price">$25</p>
+              </div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Classic Haircut</p>
+              <p class="svc-price">$25</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="cuts" style="transition-delay:.1s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Fade / Taper</p>
+                <p class="svc-desc">Precision skin, low, mid, or high fade with seamless blending using clippers and shears.</p>
+              </div></div>
+              <div><p class="svc-duration">~40 min</p><p class="svc-price">$30</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Fade / Taper</p><p class="svc-price">$30</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="cuts" style="transition-delay:.2s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Line-Up / Edge Up</p>
+                <p class="svc-desc">Crisp edge definition along the hairline, temples, and neckline for a sharp, clean look.</p>
+              </div></div>
+              <div><p class="svc-duration">~20 min</p><p class="svc-price">$15</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Line-Up / Edge Up</p><p class="svc-price">$15</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="beard" style="transition-delay:.1s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Beard Trim & Shape</p>
+                <p class="svc-desc">Scissor and clipper beard work to sculpt and define your beard to your desired style.</p>
+              </div></div>
+              <div><p class="svc-duration">~20 min</p><p class="svc-price">$15</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Beard Trim & Shape</p><p class="svc-price">$15</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="beard" style="transition-delay:.2s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Straight Razor Shave</p>
+                <p class="svc-desc">The classic experience — hot towel prep, shaving cream, and a smooth straight razor shave.</p>
+              </div></div>
+              <div><p class="svc-duration">~35 min</p><p class="svc-price">$25</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Straight Razor Shave</p><p class="svc-price">$25</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="kids" style="transition-delay:.1s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Kids Cut (12 & under)</p>
+                <p class="svc-desc">Patient, friendly cuts for our younger clients. We make sure every kid leaves with a smile.</p>
+              </div></div>
+              <div><p class="svc-duration">~25 min</p><p class="svc-price">$18</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Kids Cut</p><p class="svc-price">$18</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="premium">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Cut + Beard Combo</p>
+                <p class="svc-desc">Full haircut with a beard trim and cleanup — the complete look, start to finish.</p>
+              </div></div>
+              <div><p class="svc-duration">~55 min</p><p class="svc-price">$40</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Cut + Beard Combo</p><p class="svc-price">$40</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="premium" style="transition-delay:.1s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">The VIP Experience</p>
+                <p class="svc-desc">Cut, beard, hot towel shave, and scalp massage. The full gentleman treatment.</p>
+              </div></div>
+              <div><p class="svc-duration">~75 min</p><p class="svc-price">$60</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">VIP Experience</p><p class="svc-price">$60</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="svc-card reveal" data-category="cuts" style="transition-delay:.2s">
+          <div class="svc-card-inner">
+            <div class="svc-front">
+              <div class="svc-front-top"><div>
+                <p class="svc-name">Hair Design / Part</p>
+                <p class="svc-desc">Custom hair designs, razor parts, and artistic details added to any cut service.</p>
+              </div></div>
+              <div><p class="svc-duration">~15 min add-on</p><p class="svc-price">$10</p></div>
+            </div>
+            <div class="svc-back">
+              <p class="svc-name">Hair Design</p><p class="svc-price">$10</p>
+              <button class="btn ripple-btn" onclick="showPage('booking')" style="background:var(--black);color:var(--cream)">Book This</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Price List -->
+      <div style="margin-top:80px" class="reveal">
+        <h3 class="section-title" style="font-size:1.6rem;margin-bottom:30px">Full <em>Price List</em></h3>
+        <table class="price-table">
+          <tr class="cat-row"><td colspan="2">Cuts</td></tr>
+          <tr><td>Classic Haircut</td><td>$25</td></tr>
+          <tr><td>Fade / Skin Fade / Taper</td><td>$30</td></tr>
+          <tr><td>Line-Up / Edge Up</td><td>$15</td></tr>
+          <tr><td>Hair Design / Razor Part (add-on)</td><td>$10</td></tr>
+          <tr><td>Shampoo & Blow Dry</td><td>$12</td></tr>
+          <tr class="cat-row"><td colspan="2">Beard</td></tr>
+          <tr><td>Beard Trim & Shape</td><td>$15</td></tr>
+          <tr><td>Straight Razor Shave</td><td>$25</td></tr>
+          <tr><td>Hot Towel Facial Shave</td><td>$30</td></tr>
+          <tr><td>Mustache Trim</td><td>$10</td></tr>
+          <tr class="cat-row"><td colspan="2">Kids (12 & under)</td></tr>
+          <tr><td>Kids Haircut</td><td>$18</td></tr>
+          <tr><td>Kids Fade</td><td>$22</td></tr>
+          <tr class="cat-row"><td colspan="2">Combos & Premium</td></tr>
+          <tr><td>Cut + Beard Combo</td><td>$40</td></tr>
+          <tr><td>Fade + Beard</td><td>$42</td></tr>
+          <tr><td>The VIP Experience</td><td>$60</td></tr>
+        </table>
+      </div>
+
+      <div style="text-align:center;margin-top:48px">
+        <p style="color:var(--muted);font-size:.85rem;margin-bottom:24px">Please be advised that services may take longer during peak hours. Walk-ins are always welcome but appointments are recommended for the shortest wait times.</p>
+        <button class="btn btn-gold ripple-btn" onclick="showPage('booking')">Book an Appointment</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ============================================
+     PAGE 3: ABOUT
+     ============================================ -->
+<div class="page" id="page-about">
+  <div class="about-hero-section">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-content container">
+      <p class="eyebrow">Who We Are</p>
+      <h1 class="about-big-quote">"A haircut is more than a trim. It's a <span>ritual.</span>"</h1>
+      <div class="divider" style="margin-top:24px"></div>
+      <p style="color:var(--muted);font-size:.95rem;line-height:1.8;margin-top:16px;max-width:480px">Mr. T's has been the community's go-to barber shop since 2009, built on a foundation of skill, trust, and genuine connection.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="reveal-left">
+          <p class="eyebrow">The Story</p>
+          <h2 class="section-title">From One <em>Chair</em> to a Community</h2>
+          <div class="divider"></div>
+          <p class="section-body" style="max-width:100%">Mr. T started cutting hair out of passion long before it became a profession. Growing up watching his grandfather barber in the neighborhood, he understood early that a barbershop is more than a place — it's a gathering ground.</p>
+          <p class="section-body" style="max-width:100%;margin-top:16px">In 2009, he opened the doors to Mr. T's Barber Shop with one chair and a vision. Today, that vision has grown into a full team of licensed professionals who share the same passion for the craft.</p>
+          <p class="section-body" style="max-width:100%;margin-top:16px">With more than 30 years of combined experience, our barbers are trained in everything from traditional clipper work to modern fades, classic straight razor shaves, and all hair types — ensuring every client leaves looking and feeling their best.</p>
+        </div>
+        <div class="reveal-right">
+          <p class="eyebrow">Our Journey</p>
+          <div class="story-timeline">
+            <div class="tl-item">
+              <div class="tl-year">2009</div>
+              <div class="tl-body">
+                <h4>The Beginning</h4>
+                <p>Mr. T opened the doors to his first shop with one chair and an unstoppable vision for community-centered grooming.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2012</div>
+              <div class="tl-body">
+                <h4>Growing the Team</h4>
+                <p>Added two more expert barbers to meet growing demand and expand our range of services.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2016</div>
+              <div class="tl-body">
+                <h4>Shop Expansion</h4>
+                <p>Moved to a larger location to accommodate the growing clientele and add a premium experience area.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2020</div>
+              <div class="tl-body">
+                <h4>Community First</h4>
+                <p>Through the pandemic, we adapted quickly with safety protocols and kept our community connected.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2025</div>
+              <div class="tl-body">
+                <h4>Today & Beyond</h4>
+                <p>Four skilled barbers, thousands of satisfied clients, and a legacy of craftsmanship that continues to grow.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--card);border-top:1px solid var(--border)">
+    <div class="container">
+      <div class="text-center reveal">
+        <p class="eyebrow">What Drives Us</p>
+        <h2 class="section-title">Our <em>Values</em></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="values-grid" style="margin-top:48px">
+        <div class="val-card reveal">
+          <div class="val-num">01</div>
+          <h3 class="val-title">Precision</h3>
+          <p class="val-body">Every cut is an act of intention. We take our time, pay attention to detail, and never rush the craft.</p>
+        </div>
+        <div class="val-card reveal" style="transition-delay:.1s">
+          <div class="val-num">02</div>
+          <h3 class="val-title">Community</h3>
+          <p class="val-body">The barbershop is a gathering place. We build relationships — not just appointments.</p>
+        </div>
+        <div class="val-card reveal" style="transition-delay:.2s">
+          <div class="val-num">03</div>
+          <h3 class="val-title">Excellence</h3>
+          <p class="val-body">We never stop learning. Our barbers continuously develop their skills to offer you the best in the industry.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 4: GALLERY
+     ============================================ -->
+<div class="page" id="page-gallery">
+  <div class="page-hero">
+    <p class="eyebrow">The Work</p>
+    <h1 class="section-title">Our <em>Gallery</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+    <p style="color:var(--muted);font-size:.9rem;max-width:440px;margin:0 auto">Fresh cuts, clean lines, and sharp fades. Follow us on Instagram for daily drops.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery-filters">
+        <button class="cat-btn active" onclick="filterGallery('all',this)">All</button>
+        <button class="cat-btn" onclick="filterGallery('fades',this)">Fades</button>
+        <button class="cat-btn" onclick="filterGallery('classic',this)">Classic</button>
+        <button class="cat-btn" onclick="filterGallery('beard',this)">Beard</button>
+        <button class="cat-btn" onclick="filterGallery('kids',this)">Kids</button>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item" data-cat="fades" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal1/500/600" alt="Fade">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Skin Fade</div><div class="tag">Fades</div></div>
+        </div>
+        <div class="gallery-item" data-cat="classic" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal2/500/400" alt="Classic">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Classic Cut</div><div class="tag">Classic</div></div>
+        </div>
+        <div class="gallery-item" data-cat="beard" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal3/500/500" alt="Beard">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Beard Trim</div><div class="tag">Beard</div></div>
+        </div>
+        <div class="gallery-item" data-cat="fades" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal4/500/600" alt="Fade">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Mid Fade</div><div class="tag">Fades</div></div>
+        </div>
+        <div class="gallery-item" data-cat="classic" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal5/500/400" alt="Classic">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Precision Cut</div><div class="tag">Classic</div></div>
+        </div>
+        <div class="gallery-item" data-cat="beard" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal6/500/500" alt="Beard">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Razor Shave</div><div class="tag">Beard</div></div>
+        </div>
+        <div class="gallery-item" data-cat="fades" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal7/500/600" alt="Fade">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Low Fade</div><div class="tag">Fades</div></div>
+        </div>
+        <div class="gallery-item" data-cat="classic" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal8/500/400" alt="Classic">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Shape Up</div><div class="tag">Classic</div></div>
+        </div>
+        <div class="gallery-item" data-cat="kids" onclick="openLightbox(this)">
+          <img src="https://picsum.photos/seed/mrts-gal9/500/300" alt="Kids">
+          <div class="gallery-overlay"><div class="gallery-overlay-title">Kids Cut</div><div class="tag">Kids</div></div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:48px">
+        <a href="https://www.instagram.com/thebarberacademysj/" target="_blank" class="btn btn-outline ripple-btn">Follow on Instagram</a>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 5: TEAM
+     ============================================ -->
+<div class="page" id="page-team">
+  <div class="page-hero">
+    <p class="eyebrow">The Crew</p>
+    <h1 class="section-title">Meet Our <em>Barbers</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+    <p style="color:var(--muted);font-size:.9rem;max-width:480px;margin:0 auto">Our team of licensed professionals brings decades of combined experience. Each barber has their own style — but they all share the same commitment to excellence.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="team-grid">
+        <div class="team-card reveal" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">
+          <div class="team-card-inner">
+            <div class="team-img-wrap">
+              <img class="team-img" src="https://picsum.photos/seed/mrts-team1/500/660" alt="Mr. T">
+              <div class="team-img-overlay"></div>
+              <div class="team-socials">
+                <a href="#" class="team-social-btn">ig</a>
+                <a href="#" class="team-social-btn">fb</a>
+              </div>
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Mr. T</h3>
+              <p class="team-role">Master Barber &amp; Owner</p>
+              <p class="team-bio">With 15+ years behind the chair, Mr. T is the heartbeat of the shop. Known for flawless fades and an unmatched straight razor technique, he's the reason clients keep coming back.</p>
+              <div class="team-specialties">
+                <span class="specialty-tag">Fades</span>
+                <span class="specialty-tag">Straight Razor</span>
+                <span class="specialty-tag">All Hair Types</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card reveal" style="transition-delay:.1s" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">
+          <div class="team-card-inner">
+            <div class="team-img-wrap">
+              <img class="team-img" src="https://picsum.photos/seed/mrts-team2/500/660" alt="Marcus">
+              <div class="team-img-overlay"></div>
+              <div class="team-socials">
+                <a href="#" class="team-social-btn">ig</a>
+              </div>
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Marcus J.</h3>
+              <p class="team-role">Senior Barber</p>
+              <p class="team-bio">Marcus brings creative flair and technical precision to every cut. His detailed line work and hair design skills are in a league of their own.</p>
+              <div class="team-specialties">
+                <span class="specialty-tag">Line Work</span>
+                <span class="specialty-tag">Hair Design</span>
+                <span class="specialty-tag">Low Fade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card reveal" style="transition-delay:.2s" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">
+          <div class="team-card-inner">
+            <div class="team-img-wrap">
+              <img class="team-img" src="https://picsum.photos/seed/mrts-team3/500/660" alt="Kevin">
+              <div class="team-img-overlay"></div>
+              <div class="team-socials">
+                <a href="https://app.thecut.co/barbers/kevdabarber" target="_blank" class="team-social-btn">bc</a>
+                <a href="#" class="team-social-btn">ig</a>
+              </div>
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Kevin D.</h3>
+              <p class="team-role">Licensed Barber</p>
+              <p class="team-bio">Kevin specializes in textured hair and beard grooming. His consultative approach ensures every client walks out with exactly the look they envisioned.</p>
+              <div class="team-specialties">
+                <span class="specialty-tag">Textured Hair</span>
+                <span class="specialty-tag">Beard Sculpting</span>
+                <span class="specialty-tag">Skin Fade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card reveal" style="transition-delay:.3s" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">
+          <div class="team-card-inner">
+            <div class="team-img-wrap">
+              <img class="team-img" src="https://picsum.photos/seed/mrts-team4/500/660" alt="Alex">
+              <div class="team-img-overlay"></div>
+              <div class="team-socials">
+                <a href="#" class="team-social-btn">ig</a>
+              </div>
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Alex R.</h3>
+              <p class="team-role">Barber</p>
+              <p class="team-bio">The youngest member of the team, Alex brings fresh energy and a keen eye for modern cuts. Exceptional with kids and first-time clients.</p>
+              <div class="team-specialties">
+                <span class="specialty-tag">Kids Cuts</span>
+                <span class="specialty-tag">Modern Styles</span>
+                <span class="specialty-tag">Classic Taper</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:60px" class="reveal">
+        <p style="color:var(--muted);margin-bottom:24px;font-size:.9rem">Ready to book with one of our barbers?</p>
+        <button class="btn btn-gold ripple-btn" onclick="showPage('booking')">Reserve Your Seat</button>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 6: BOOKING
+     ============================================ -->
+<div class="page" id="page-booking">
+  <div class="page-hero">
+    <p class="eyebrow">Reserve Your Spot</p>
+    <h1 class="section-title">Book an <em>Appointment</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+    <p style="color:var(--muted);font-size:.9rem;max-width:440px;margin:0 auto">Complete the form below or call us at <a href="tel:+14082160655" style="color:var(--gold)">(408) 216-0655</a>. Walk-ins also welcome during business hours.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="booking-grid">
+        <div class="booking-form-wrap reveal">
+          <h3 class="form-title">Appointment Details</h3>
+          <div class="steps-indicator">
+            <div class="step-dot active" id="sdot-1"><div class="step-dot-circle">1</div><div class="step-dot-label">Service</div></div>
+            <div class="step-dot" id="sdot-2"><div class="step-dot-circle">2</div><div class="step-dot-label">Date</div></div>
+            <div class="step-dot" id="sdot-3"><div class="step-dot-circle">3</div><div class="step-dot-label">Details</div></div>
+            <div class="step-dot" id="sdot-4"><div class="step-dot-circle">4</div><div class="step-dot-label">Confirm</div></div>
+          </div>
+
+          <!-- Step 1: Service -->
+          <div class="form-step active" id="step-1">
+            <p class="form-label">Choose a Service</p>
+            <div class="service-options">
+              <div class="service-option" onclick="selectService(this)"><div class="service-option-name">Classic Haircut</div><div class="service-option-price">$25 &bull; ~30 min</div></div>
+              <div class="service-option" onclick="selectService(this)"><div class="service-option-name">Fade / Taper</div><div class="service-option-price">$30 &bull; ~40 min</div></div>
+              <div class="service-option" onclick="selectService(this)"><div class="service-option-name">Beard Trim</div><div class="service-option-price">$15 &bull; ~20 min</div></div>
+              <div class="service-option" onclick="selectService(this)"><div class="service-option-name">Cut + Beard</div><div class="service-option-price">$40 &bull; ~55 min</div></div>
+              <div class="service-option" onclick="selectService(this)"><div class="service-option-name">Straight Razor Shave</div><div class="service-option-price">$25 &bull; ~35 min</div></div>
+              <div class="service-option" onclick="selectService(this)"><div class="service-option-name">VIP Experience</div><div class="service-option-price">$60 &bull; ~75 min</div></div>
+            </div>
+            <div class="form-group" style="margin-top:20px">
+              <label class="form-label">Choose a Barber (Optional)</label>
+              <select class="form-input">
+                <option value="">Any Available Barber</option>
+                <option>Mr. T</option>
+                <option>Marcus J.</option>
+                <option>Kevin D.</option>
+                <option>Alex R.</option>
+              </select>
+            </div>
+            <div class="form-nav"><span></span><button class="btn btn-gold ripple-btn" onclick="goStep(2)">Next: Choose Date</button></div>
+          </div>
+
+          <!-- Step 2: Date -->
+          <div class="form-step" id="step-2">
+            <div class="form-group">
+              <label class="form-label">Select Date</label>
+              <input type="date" class="form-input" id="booking-date" min="">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Available Times</label>
+              <div class="time-slots">
+                <div class="time-slot" onclick="selectTime(this)">10:00 AM</div>
+                <div class="time-slot" onclick="selectTime(this)">10:30 AM</div>
+                <div class="time-slot unavailable">11:00 AM</div>
+                <div class="time-slot" onclick="selectTime(this)">11:30 AM</div>
+                <div class="time-slot unavailable">12:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">12:30 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">1:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">2:00 PM</div>
+                <div class="time-slot unavailable">2:30 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">3:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">4:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">5:00 PM</div>
+              </div>
+            </div>
+            <div class="form-nav">
+              <button class="btn btn-outline ripple-btn" onclick="goStep(1)">Back</button>
+              <button class="btn btn-gold ripple-btn" onclick="goStep(3)">Next: Your Info</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Details -->
+          <div class="form-step" id="step-3">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" placeholder="Doe">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input" placeholder="(408) 000-0000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="john@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Special Requests (Optional)</label>
+              <textarea class="form-input" rows="3" placeholder="Any notes for your barber..."></textarea>
+            </div>
+            <div class="form-nav">
+              <button class="btn btn-outline ripple-btn" onclick="goStep(2)">Back</button>
+              <button class="btn btn-gold ripple-btn" onclick="goStep(4)">Review Booking</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Confirm -->
+          <div class="form-step" id="step-4">
+            <div style="background:rgba(201,150,12,.06);border:1px solid rgba(201,150,12,.2);border-radius:var(--r);padding:24px;margin-bottom:24px">
+              <p class="eyebrow" style="margin-bottom:12px">Booking Summary</p>
+              <p style="color:var(--cream);font-size:.9rem;line-height:2">Service: <span style="color:var(--gold)">Selected Service</span><br>Date: <span style="color:var(--gold)">Selected Date &amp; Time</span><br>Barber: <span style="color:var(--gold)">Any Available</span></p>
+            </div>
+            <p style="color:var(--muted);font-size:.83rem;line-height:1.7;margin-bottom:24px">By confirming, you agree to our 24-hour cancellation policy. A confirmation will be sent to your email and phone number.</p>
+            <div class="form-nav">
+              <button class="btn btn-outline ripple-btn" onclick="goStep(3)">Back</button>
+              <button class="btn btn-gold ripple-btn" onclick="confirmBooking()">Confirm Appointment</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-info reveal-right">
+          <div class="booking-info-card">
+            <h3 class="bic-title">Business Hours</h3>
+            <div class="bic-items">
+              <div class="bic-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Tue &ndash; Fri: 10:00 AM &ndash; 6:30 PM</div>
+              <div class="bic-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Saturday: 10:00 AM &ndash; 2:00 PM</div>
+              <div class="bic-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Sun &ndash; Mon: Closed</div>
+            </div>
+          </div>
+          <div class="booking-info-card">
+            <h3 class="bic-title">Contact</h3>
+            <div class="bic-items">
+              <div class="bic-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+14082160655" style="color:var(--cream)">(408) 216-0655</a></div>
+              <div class="bic-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>San Jose, CA</div>
+            </div>
+          </div>
+          <div class="booking-info-card" style="background:linear-gradient(135deg,rgba(201,150,12,.12),transparent);border-color:rgba(201,150,12,.3)">
+            <h3 class="bic-title">Walk-Ins Welcome</h3>
+            <p style="font-size:.86rem;color:var(--muted);line-height:1.7">No appointment? No problem. We accept walk-ins during all business hours. Appointments are recommended for peak times (Fri &amp; Sat).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 7: PACKAGES
+     ============================================ -->
+<div class="page" id="page-packages">
+  <div class="page-hero">
+    <p class="eyebrow">Deals & Bundles</p>
+    <h1 class="section-title">Our <em>Packages</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+    <p style="color:var(--muted);font-size:.9rem;max-width:460px;margin:0 auto">Save more with our bundled grooming packages — curated for the modern gentleman who values looking sharp every time.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="packages-grid">
+        <div class="pkg-card reveal">
+          <h3 class="pkg-name">The Essential</h3>
+          <p class="pkg-desc">Everything you need for a sharp, clean look. Perfect for the regular visitor.</p>
+          <div class="pkg-price"><sup>$</sup>35</div>
+          <p class="pkg-period">Per Visit</p>
+          <div class="pkg-features">
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Classic Haircut</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Line-Up / Edge Up</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Neck Shave</div>
+            <div class="pkg-feature crossed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Beard Trim</div>
+            <div class="pkg-feature crossed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Hot Towel Treatment</div>
+          </div>
+          <button class="btn btn-outline ripple-btn" style="width:100%;justify-content:center" onclick="showPage('booking')">Book Now</button>
+        </div>
+
+        <div class="pkg-card featured reveal" style="transition-delay:.1s">
+          <div class="pkg-badge">Most Popular</div>
+          <h3 class="pkg-name">The Gentleman</h3>
+          <p class="pkg-desc">Our most popular package — a complete grooming experience for the well-dressed man.</p>
+          <div class="pkg-price"><sup>$</sup>50</div>
+          <p class="pkg-period">Per Visit</p>
+          <div class="pkg-features">
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Fade / Taper Cut</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Beard Trim & Shape</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Hot Towel Treatment</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Line-Up / Edge Up</div>
+            <div class="pkg-feature crossed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Scalp Massage</div>
+          </div>
+          <button class="btn btn-gold ripple-btn" style="width:100%;justify-content:center" onclick="showPage('booking')">Book Now</button>
+        </div>
+
+        <div class="pkg-card reveal" style="transition-delay:.2s">
+          <h3 class="pkg-name">The VIP</h3>
+          <p class="pkg-desc">The full luxury experience. For special occasions or when you want the absolute best.</p>
+          <div class="pkg-price"><sup>$</sup>75</div>
+          <p class="pkg-period">Per Visit</p>
+          <div class="pkg-features">
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Premium Fade / Style Cut</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Full Beard Groom & Shape</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Straight Razor Shave</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Hot Towel & Steamer</div>
+            <div class="pkg-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Scalp Massage</div>
+          </div>
+          <button class="btn btn-outline ripple-btn" style="width:100%;justify-content:center" onclick="showPage('booking')">Book Now</button>
+        </div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:40px;margin-top:60px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center" class="reveal">
+        <div>
+          <p class="eyebrow">Monthly Membership</p>
+          <h3 class="section-title" style="font-size:1.8rem;margin-bottom:12px">The <em>Sharp Club</em></h3>
+          <p style="color:var(--muted);font-size:.9rem;line-height:1.8">Never look out of place again. Subscribe to our monthly membership and get 2 cuts per month plus discounts on add-ons. Cancel anytime.</p>
+          <div style="display:flex;gap:32px;margin-top:20px;flex-wrap:wrap">
+            <div><p style="font-family:var(--serif);font-size:2rem;font-weight:900;color:var(--gold);line-height:1">$55<span style="font-size:1rem">/mo</span></p><p style="font-family:var(--cond);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">2 Cuts/Month</p></div>
+            <div><p style="font-family:var(--serif);font-size:2rem;font-weight:900;color:var(--gold);line-height:1">$90<span style="font-size:1rem">/mo</span></p><p style="font-family:var(--cond);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Unlimited Cuts</p></div>
+          </div>
+        </div>
+        <button class="btn btn-gold ripple-btn" onclick="showPage('contact')">Enquire Now</button>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 8: TESTIMONIALS
+     ============================================ -->
+<div class="page" id="page-testimonials">
+  <div class="testimonials-hero">
+    <p class="eyebrow">Client Love</p>
+    <h1 class="section-title">What They're <em>Saying</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+  </div>
+
+  <section class="section" style="padding-top:20px">
+    <div class="container">
+      <div class="rating-summary reveal">
+        <div class="big-rating">
+          <div class="big-num">4.9</div>
+          <div class="big-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="big-count">Based on 320+ reviews</p>
+        </div>
+        <div class="rating-bars">
+          <div class="rating-bar-row"><span class="rating-bar-label">5 ★</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:88%"></div></div><span class="rating-bar-pct">88%</span></div>
+          <div class="rating-bar-row"><span class="rating-bar-label">4 ★</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:9%"></div></div><span class="rating-bar-pct">9%</span></div>
+          <div class="rating-bar-row"><span class="rating-bar-label">3 ★</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:2%"></div></div><span class="rating-bar-pct">2%</span></div>
+          <div class="rating-bar-row"><span class="rating-bar-label">2 ★</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:1%"></div></div><span class="rating-bar-pct">1%</span></div>
+          <div class="rating-bar-row"><span class="rating-bar-label">1 ★</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:0%"></div></div><span class="rating-bar-pct">0%</span></div>
+        </div>
+      </div>
+
+      <div class="testimonials-main-grid">
+        <div class="test-card reveal">
+          <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <p class="test-quote">"Mr. T has been cutting my hair for 8 years. I wouldn't trust anyone else. He knows my hair better than I do at this point."</p>
+          <div class="test-author"><img class="test-avatar" src="https://picsum.photos/seed/mrts-av1/80/80" alt=""><div><p class="test-name">James K.</p><p class="test-date">March 2025</p></div></div>
+        </div>
+        <div class="test-card reveal" style="transition-delay:.1s">
+          <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <p class="test-quote">"The VIP package is worth every penny. Hot towel, shave, scalp massage — I walked out feeling like a new man. This is what a barbershop experience should feel like."</p>
+          <div class="test-author"><img class="test-avatar" src="https://picsum.photos/seed/mrts-av2/80/80" alt=""><div><p class="test-name">Marcus L.</p><p class="test-date">February 2025</p></div></div>
+        </div>
+        <div class="test-card reveal" style="transition-delay:.2s">
+          <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <p class="test-quote">"Brought my son in for his first real haircut. Alex was incredibly patient and made him feel comfortable. He walked out beaming. 10/10."</p>
+          <div class="test-author"><img class="test-avatar" src="https://picsum.photos/seed/mrts-av3/80/80" alt=""><div><p class="test-name">Sarah T.</p><p class="test-date">January 2025</p></div></div>
+        </div>
+        <div class="test-card reveal">
+          <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <p class="test-quote">"Marcus does the cleanest line work I've ever seen. Got a design put in and everyone at work was asking where I got my hair done."</p>
+          <div class="test-author"><img class="test-avatar" src="https://picsum.photos/seed/mrts-av4/80/80" alt=""><div><p class="test-name">Devon R.</p><p class="test-date">April 2025</p></div></div>
+        </div>
+        <div class="test-card reveal" style="transition-delay:.1s">
+          <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <p class="test-quote">"Kevin gave me the best beard shape-up I've ever had. The detail work around the lips and cheeks was meticulous. Highly recommend the Gentleman Package."</p>
+          <div class="test-author"><img class="test-avatar" src="https://picsum.photos/seed/mrts-av5/80/80" alt=""><div><p class="test-name">Chris M.</p><p class="test-date">March 2025</p></div></div>
+        </div>
+        <div class="test-card reveal" style="transition-delay:.2s">
+          <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+          <p class="test-quote">"Been to a lot of shops in San Jose — Mr. T's is on a different level. Clean environment, professional team, consistent results every time."</p>
+          <div class="test-author"><img class="test-avatar" src="https://picsum.photos/seed/mrts-av6/80/80" alt=""><div><p class="test-name">Tony V.</p><p class="test-date">April 2025</p></div></div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:60px" class="reveal">
+        <button class="btn btn-gold ripple-btn" onclick="showPage('booking')">Join Our Happy Clients — Book Now</button>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 9: FAQ
+     ============================================ -->
+<div class="page" id="page-faq">
+  <div class="page-hero">
+    <p class="eyebrow">Got Questions?</p>
+    <h1 class="section-title">Frequently Asked <em>Questions</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="faq-grid">
+        <div class="reveal">
+          <div class="faq-list">
+            <div class="faq-item open">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">Do I need an appointment or can I walk in?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">Walk-ins are always welcome during our business hours (Tuesday–Friday 10am–6:30pm, Saturday 10am–2pm). However, we recommend booking an appointment — especially on Fridays and Saturdays — to minimize your wait time and guarantee a spot with your preferred barber.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">How long does a typical haircut take?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">A classic haircut typically takes 25–35 minutes. Fades and tapers run closer to 40 minutes. Combined services like our Cut + Beard package take 50–60 minutes. The VIP Experience is approximately 75 minutes. Times may vary depending on hair length and desired style.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">What payment methods do you accept?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">We accept cash, all major credit and debit cards, Venmo, and Zelle. A 3% processing fee applies to card payments. Tipping your barber is always appreciated and can be done in any of these methods.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">What is your cancellation policy?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">We ask for at least 24 hours notice if you need to cancel or reschedule your appointment. Late cancellations or no-shows may be subject to a cancellation fee. We understand emergencies happen — just give us a call.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">Do you cut all hair types?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">Yes — our barbers are trained and experienced with all hair types, including straight, wavy, curly, and coily hair textures. We specialize in diverse hair types and can accommodate any style you're looking for. If you have any specific concerns, feel free to call ahead.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">Do you offer kids haircuts?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">Absolutely. We offer kids cuts for children 12 and under at a discounted rate. Alex is particularly great with younger clients. We recommend scheduling an appointment for kids visits to minimize wait time and make the experience as smooth as possible.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">How often should I get a haircut?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">For most clients, we recommend every 2–3 weeks to maintain a fresh look. If you have a skin fade, 2 weeks is ideal. For longer styles, every 4–6 weeks works well. Our Sharp Club membership is designed for clients who want to stay consistently sharp.</p></div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="faq-question-text">Is the shop accessible / ADA compliant?</span>
+                <div class="faq-icon">+</div>
+              </div>
+              <div class="faq-answer"><p class="faq-answer-inner">Yes, our shop is ADA accessible. If you have any specific accessibility needs, please don't hesitate to call us ahead of your visit and we'll make sure everything is accommodated.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-sidebar reveal-right">
+          <div class="faq-cta-card">
+            <h3>Still have questions?</h3>
+            <p>Our team is happy to help. Give us a call during business hours or send us a message.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <a href="tel:+14082160655" class="btn btn-gold ripple-btn">(408) 216-0655</a>
+              <button class="btn btn-outline ripple-btn" onclick="showPage('contact')">Send a Message</button>
+            </div>
+          </div>
+          <div class="booking-info-card" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px">
+            <h3 style="font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--cream);margin-bottom:16px">Business Hours</h3>
+            <div class="hours-grid">
+              <span class="hours-day">Tue–Fri</span><span class="hours-time">10:00 AM – 6:30 PM</span>
+              <span class="hours-day">Saturday</span><span class="hours-time">10:00 AM – 2:00 PM</span>
+              <span class="hours-day">Sun–Mon</span><span class="hours-time">Closed</span>
+            </div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px">
+            <h3 style="font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--cream);margin-bottom:16px">Quick Book</h3>
+            <p style="font-size:.86rem;color:var(--muted);line-height:1.7;margin-bottom:20px">Ready to sit in the chair? Book your appointment in 2 minutes.</p>
+            <button class="btn btn-gold ripple-btn" style="width:100%;justify-content:center" onclick="showPage('booking')">Book Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer><div class="footer-bottom container"><p>&copy; 2025 Mr. T's Barber Shop.</p></div></footer>
+</div>
+
+<!-- ============================================
+     PAGE 10: CONTACT
+     ============================================ -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <p class="eyebrow">Get In Touch</p>
+    <h1 class="section-title">Contact <em>Us</em></h1>
+    <div class="divider" style="margin:16px auto"></div>
+    <p style="color:var(--muted);font-size:.9rem;max-width:420px;margin:0 auto">Have a question or want to reach out? We'd love to hear from you. A team member will get back to you as soon as possible.</p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal-left">
+          <div class="contact-info-block">
+            <div class="cib-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <p class="cib-label">Location</p>
+            <p class="cib-value">Mr. T's Barber Shop<br>San Jose, California<br><a href="https://maps.google.com" target="_blank" style="color:var(--gold);font-size:.82rem">Get Directions</a></p>
+          </div>
+          <div class="contact-info-block">
+            <div class="cib-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <p class="cib-label">Phone</p>
+            <p class="cib-value"><a href="tel:+14082160655">(408) 216-0655</a></p>
+          </div>
+          <div class="contact-info-block">
+            <div class="cib-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <p class="cib-label">Business Hours</p>
+            <div class="hours-grid" style="margin-top:0">
+              <span class="hours-day">Tue–Fri</span><span class="hours-time">10:00 AM – 6:30 PM</span>
+              <span class="hours-day">Saturday</span><span class="hours-time">10:00 AM – 2:00 PM</span>
+              <span class="hours-day">Sun–Mon</span><span class="hours-time">Closed</span>
+            </div>
+          </div>
+          <div class="contact-map">
+            <div class="map-placeholder">San Jose, CA</div>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap reveal-right">
+          <h3 class="form-title">Send Us a Message</h3>
+          <div class="contact-form">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="John"></div>
+              <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Doe"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="john@email.com"></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" placeholder="(408) 000-0000"></div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-input">
+                <option value="">Select a subject...</option>
+                <option>Book an Appointment</option>
+                <option>Service Inquiry</option>
+                <option>Membership / Sharp Club</option>
+                <option>General Question</option>
+                <option>Feedback / Compliment</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" rows="5" placeholder="Write your message here..."></textarea></div>
+            <button class="btn btn-gold ripple-btn" style="width:100%;justify-content:center" onclick="submitContact(this)">Send Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <span class="nav-logo">Mr. <span>T's</span></span>
+        <p class="footer-desc">Precision cuts and timeless grooming in the heart of San Jose. Walk in looking good, walk out looking great.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn">in</a>
+          <a href="https://www.instagram.com/thebarberacademysj/" class="social-btn">ig</a>
+          <a href="#" class="social-btn">fb</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigate</h4><ul>
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('services')">Services</a></li>
+        <li><a href="#" onclick="showPage('about')">About</a></li>
+        <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
+        <li><a href="#" onclick="showPage('team')">Our Barbers</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Info</h4><ul>
+        <li><a href="#" onclick="showPage('packages')">Packages</a></li>
+        <li><a href="#" onclick="showPage('testimonials')">Reviews</a></li>
+        <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+        <li><a href="#" onclick="showPage('booking')">Book Now</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom container">
+      <p>&copy; 2025 Mr. T's Barber Shop. All rights reserved.</p>
+      <p>Licensed Barbers &mdash; San Jose, CA</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    cursorRing.style.left = e.clientX + 'px';
+    cursorRing.style.top = e.clientY + 'px';
+  }, 60);
+});
+document.querySelectorAll('a,button,.svc-card,.gallery-item,.faq-question,.team-card,.service-option,.time-slot,.cat-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';
+    cursor.style.height = '20px';
+    cursorRing.style.width = '50px';
+    cursorRing.style.height = '50px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '10px';
+    cursor.style.height = '10px';
+    cursorRing.style.width = '36px';
+    cursorRing.style.height = '36px';
+  });
+});
+
+// ===== PAGE NAVIGATION =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+  document.querySelectorAll('[data-page]').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === id);
+  });
+  triggerReveal();
+  if (id === 'home') triggerCounters();
+}
+function navTo(id) {
+  closeMenu();
+  setTimeout(() => showPage(id), 400);
+}
+// Prevent default on all nav onclick links
+document.querySelectorAll('a[onclick]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+
+// ===== HAMBURGER =====
+const hamburger = document.getElementById('hamburger');
+const menuOverlay = document.getElementById('menu-overlay');
+function closeMenu() {
+  hamburger.classList.remove('open');
+  menuOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+hamburger.addEventListener('click', () => {
+  const isOpen = hamburger.classList.toggle('open');
+  menuOverlay.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+// ===== SCROLL =====
+const nav = document.getElementById('main-nav');
+const backTop = document.getElementById('back-top');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+  backTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===== SCROLL REVEAL =====
+function triggerReveal() {
+  const els = document.querySelectorAll('.active .reveal, .active .reveal-left, .active .reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => { el.classList.remove('visible'); observer.observe(el); });
+}
+
+// ===== COUNTERS =====
+function animateCounter(el, target) {
+  const isBig = target >= 1000;
+  const duration = 1500;
+  const start = Date.now();
+  const tick = () => {
+    const p = Math.min((Date.now() - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(ease * target);
+    el.textContent = isBig ? val.toLocaleString() + '+' : val + (el.dataset.suffix || '');
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  tick();
+}
+function triggerCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    animateCounter(el, parseInt(el.dataset.count));
+  });
+}
+
+// ===== SERVICE FILTER =====
+function filterServices(cat, btn) {
+  document.querySelectorAll('#page-services .cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.svc-card').forEach(card => {
+    const show = cat === 'all' || card.dataset.category === cat;
+    card.style.display = show ? 'block' : 'none';
+    card.style.opacity = show ? '1' : '0';
+  });
+}
+
+// ===== GALLERY FILTER =====
+function filterGallery(cat, btn) {
+  document.querySelectorAll('#page-gallery .cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    const show = cat === 'all' || item.dataset.cat === cat;
+    item.style.display = show ? 'block' : 'none';
+  });
+}
+
+// ===== LIGHTBOX =====
+function openLightbox(item) {
+  const img = item.querySelector('img');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ===== TEAM CARD TILT =====
+function tiltCard(e, card) {
+  const inner = card.querySelector('.team-card-inner');
+  const rect = card.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width - 0.5;
+  const y = (e.clientY - rect.top) / rect.height - 0.5;
+  inner.style.transform = `perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+}
+function resetTilt(card) {
+  card.querySelector('.team-card-inner').style.transform = '';
+}
+
+// ===== BOOKING STEPS =====
+let currentStep = 1;
+function goStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.getElementById('sdot-' + currentStep).classList.remove('active');
+  document.getElementById('sdot-' + currentStep).classList.add('done');
+  currentStep = n;
+  if (n <= 4) {
+    document.getElementById('step-' + n).classList.add('active');
+    document.getElementById('sdot-' + n).classList.add('active');
+    document.getElementById('sdot-' + n).classList.remove('done');
+  }
+}
+function selectService(el) {
+  document.querySelectorAll('.service-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selectTime(el) {
+  document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function confirmBooking() {
+  const btn = document.querySelector('#step-4 .btn-gold');
+  btn.textContent = 'Confirmed!';
+  btn.style.background = '#2a8a2a';
+  setTimeout(() => {
+    showPage('home');
+    currentStep = 1;
+    document.querySelectorAll('.form-step').forEach((s,i) => s.classList.toggle('active', i === 0));
+    document.querySelectorAll('.step-dot').forEach((d,i) => { d.classList.toggle('active', i === 0); d.classList.remove('done'); });
+    btn.textContent = 'Confirm Appointment';
+    btn.style.background = '';
+  }, 2000);
+}
+
+// Set min date for booking
+const dateInput = document.getElementById('booking-date');
+if (dateInput) {
+  const today = new Date();
+  dateInput.min = today.toISOString().split('T')[0];
+}
+
+// ===== FAQ =====
+function toggleFaq(trigger) {
+  const item = trigger.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ===== CONTACT SUBMIT =====
+function submitContact(btn) {
+  btn.textContent = 'Message Sent!';
+  btn.style.background = '#2a8a2a';
+  setTimeout(() => {
+    btn.textContent = 'Send Message';
+    btn.style.background = '';
+  }, 3000);
+}
+
+// ===== RIPPLE EFFECT =====
+document.querySelectorAll('.ripple-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+    r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    this.appendChild(r);
+    setTimeout(() => r.remove(), 700);
+  });
+});
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  triggerReveal();
+  triggerCounters();
+  nav.classList.remove('scrolled');
+});
+
+// Re-init reveal after a brief delay for initial page
+setTimeout(triggerReveal, 200);
+</script>
+</body>
+</html>
